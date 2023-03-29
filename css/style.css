@@ -1,0 +1,64 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.containerMain{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(187, 186, 186);
+    width: auto;
+    height: auto;
+    gap: 30px;
+}
+h2{
+    color: rgb(168, 119, 214);
+}
+.textos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    color: blue;
+    gap: 10px;
+}
+h3{
+    color: black;
+}
+.formulario{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    margin-bottom: 30px;
+}
+input{
+    width: 40%;
+}
+select{
+    width: 40%;
+}
+.button{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+    width: 50%;
+    
+}
+.montoCuota{
+    display: flex;
+    flex-direction: row;
+    gap: 20%;
+}
+.txtMonto{
+    color: blue;
+    font-size: 20px;
+}
+.cantidadMonto{
+    color: rgb(168, 119, 214);
+    font-size: 20px;
+}
