@@ -1,12 +1,32 @@
 const btnCalcular = document.getElementById('btnCalcular'),
 inputMonto = document.querySelector("input[type='number']"),
 opcionCuotas = document.getElementById('cantCuotas'),
-txtMonto = document.getElementById('txtModificable');
+txtMonto = document.getElementById('txtModificable'),
+nombreUser = document.getElementById('nombreUser'),
+dniUser = document.getElementById('dniUser'),
+btnIngreso = document.getElementById('btnIngreso');
+
+function Usuario(nombre, dni) {
+    this.nombre = nombre;
+    this.dni = dni;
+}
 
 function cuota (a, b) {
     let resultado = a / b
     return resultado
 }
+
+usuarios = [];
+
+btnIngreso.onclick=(eventito)=>{
+    let usuario = new Usuario (nombreUser.value, dniUser.value);
+    eventito.preventDefault();
+    sessionStorage.setItem('usuario',JSON.stringify(usuario));
+    console.log(sessionStorage.getItem('usuario'));
+    usuarios.push(usuario);
+
+}
+
 
 btnCalcular.onclick=(evento)=>{
     
