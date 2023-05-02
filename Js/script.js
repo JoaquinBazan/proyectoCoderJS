@@ -1,14 +1,18 @@
 const btnCalcular = document.getElementById('btnCalcular'),
-inputMonto = document.querySelector("input[type='number']"),
+inputMonto = document.getElementById('monto'),
 opcionCuotas = document.getElementById('cantCuotas'),
 txtMonto = document.getElementById('txtModificable'),
 nombreUser = document.getElementById('nombreUser'),
 dniUser = document.getElementById('dniUser'),
-btnIngreso = document.getElementById('btnIngreso');
+mailUser = document.getElementById('mailUser'),
+btnIngreso = document.getElementById('btnIngreso'),
+txtDolarCompra = document.getElementById('txtDolarCompra'),
+txtDolarVenta = document.getElementById('txtDolarVenta');
 
-function Usuario(nombre, dni) {
+function Usuario(nombre, dni, mail) {
     this.nombre = nombre;
     this.dni = dni;
+    this.mail = mail;
 }
 
 function cuota (a, b) {
@@ -18,26 +22,71 @@ function cuota (a, b) {
 
 usuarios = [];
 
+fetch('https://api.bluelytics.com.ar/v2/latest')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        let dolarCompra = data.blue.value_buy;
+        let dolarVenta = data.blue.value_sell;
+        txtDolarCompra.innerText = dolarCompra;
+        txtDolarVenta.innerText = dolarVenta;
+    })
+
+window.onload = () => {
+    Swal.fire(
+        {
+            title: '¡Bienvenido!',
+            text: 'Registra tus datos para usar nuestra app',
+            icon: 'info',
+            iconColor: 'rgb(168, 119, 214)',
+            confirmButtonText: 'Ok',
+            timer: 6000
+        }
+    )
+}
+
 btnIngreso.onclick=(eventito)=>{
-    let usuario = new Usuario (nombreUser.value, dniUser.value);
+    let usuario = new Usuario (nombreUser.value, dniUser.value, mailUser.value);
     eventito.preventDefault();
-    sessionStorage.setItem('usuario',JSON.stringify(usuario));
-    console.log(sessionStorage.getItem('usuario'));
+    localStorage.setItem('usuario',JSON.stringify(usuario));
+    console.log(localStorage.getItem('usuario'));
     usuarios.push(usuario);
+    console.log(usuarios);
 
+    btnCalcular.onclick=(evento)=>{
+        if(inputMonto.value<10000){
+                evento.preventDefault();
+                Swal.fire(
+                    {
+                        title: 'Monto incorrecto',
+                        text: 'El monto mínimo es de $10.000',
+                        icon: 'info',
+                        iconColor: 'rgb(168, 119, 214)',
+                        confirmButtonText: 'Ok',
+                        timer: 6000
+                    }
+                )
+        } else {
+            const cuotas = cuota(inputMonto.value,opcionCuotas.value);
+            evento.preventDefault();
+            txtMonto.innerText = '$' + cuotas.toFixed(2);
+
+            console.log(txtMonto);
+        }
+    }
 }
 
 
-btnCalcular.onclick=(evento)=>{
+// btnCalcular.onclick=(evento)=>{
     
-    const cuotas = cuota(inputMonto.value,opcionCuotas.value);
-    evento.preventDefault();
-    txtMonto.innerText = '$' + cuotas.toFixed(2);
+//     const cuotas = cuota(inputMonto.value,opcionCuotas.value);
+//     evento.preventDefault();
+//     txtMonto.innerText = '$' + cuotas.toFixed(2);
 
-    console.log(inputMonto.value);
-    console.log(opcionCuotas.value);
-    console.log(txtMonto);
-}
+//     console.log(inputMonto.value);
+//     console.log(opcionCuotas.value);
+//     console.log(txtMonto);
+// }
 
 // function cliente (nombre,telefono) {
 //     this.nombre = nombre;
